@@ -1,0 +1,38 @@
+<div style="text-align: center;">
+
+    <div class="PinkBroccoli_header_logo">
+        <h1>Papa Broccoli</h1>
+    </div>
+
+    <div class="PinkBroccoli_header_button">
+        <span>nav1</span>
+        <span>nav2</span>
+        {% if not user.is_authenticated %}
+        {# 로그인 된 user인지 아닌지 확인하는 문구: 로그인 되어있지 않다면 아래 구문 실행 #}
+        <span>
+            <a href="{% url 'accountapp2:login' %}">
+                Login
+            </a>
+        </span>
+        <span>
+            <a href="{% url 'accountapp2:create' %}">
+                Sign Up
+            </a>
+        </span>
+        {% else %}
+        <span>
+            <a href="{% url 'accountapp2:detail' pk=user.pk %}">
+                Mypage
+            </a>
+        </span>
+        <span>
+            {# 로그인 된 사용자 일 경우: 아래 구문 실행 #}
+            {# 로그아웃 클릭 시 login 화면으로 돌아감#}
+            <a href="{% url 'accountapp2:logout' %}">
+                Logout
+            </a>
+        </span>
+        {% endif %}
+
+    </div>
+</div>

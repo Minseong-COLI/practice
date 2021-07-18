@@ -9,10 +9,12 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.urls import reverse_lazy
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env_list = dict()
@@ -22,11 +24,11 @@ while True:
     line = local_env.readline()
     if not line:
         break
-    line = line.replace('\n','')       # 줄바꿈->공백으로 치환
-    start = line.find('=')             # =의 위치를 파악해서 그 index를 start라는 변수 에 저장
-    key = line[:start]                 # start('=')를 기준으로 슬라이싱-> key, value 지정
+    line = line.replace('\n', '')  # 줄바꿈->공백으로 치환
+    start = line.find('=')  # =의 위치를 파악해서 그 index를 start라는 변수 에 저장
+    key = line[:start]  # start('=')를 기준으로 슬라이싱-> key, value 지정
     value = line[start:]
-    env_list[key] = value              # env_list 딕셔너리에 key, value 값 저장
+    env_list[key] = value  # env_list 딕셔너리에 key, value 값 저장
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -39,7 +41,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,7 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accountapp2'
+    'accountapp2',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [
@@ -83,7 +85,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'practice.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -93,7 +94,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -113,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -127,13 +126,19 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = reverse_lazy("accountapp2:hello_world")
+LOGOUT_REDIRECT_URL = reverse_lazy("accountapp2:login")
