@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from accountapp2.models import HelloColi
 
@@ -59,3 +59,10 @@ class AccountUpdateView(UpdateView):
     # pk를 입력해줘야 구동이 됨
     context_object_name = 'target_user'
     template_name = 'accountapp2/update.html'
+
+
+class AccountDeleteView(DeleteView):
+    model = User
+    context_object_name = 'target_user'
+    success_url = reverse_lazy('accountapp2:hello_coli')
+    template_name = 'accountapp2/delete.html'
