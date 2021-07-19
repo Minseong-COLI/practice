@@ -8,6 +8,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from accountapp2.models import HelloColi
+from accountapp2.forms import AccountCreationForm
 
 
 def hello_coli(request):
@@ -53,7 +54,7 @@ class AccountDetailView(DetailView):
 
 class AccountUpdateView(UpdateView):
     model = User
-    form_class = UserCreationForm
+    form_class = AccountCreationForm
     success_url = reverse_lazy('accountapp2:detail')
     # 완료 후 이동 페이지
     # pk를 입력해줘야 구동이 됨
