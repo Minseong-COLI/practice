@@ -12,6 +12,11 @@
             {{ target_user.date_joined }}
             {# 가입 일자 표시 #}
         </div>
+        <div>
+            <a href="{% url 'accountapp2:update' pk=target_user.pk %}">
+                Update Info
+            </a>
+        </div>
     </div>
 
 

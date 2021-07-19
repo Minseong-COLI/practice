@@ -1,6 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
-from accountapp2.views import hello_coli, AccountCreateView, AccountDetailView
+from accountapp2.views import hello_coli, AccountCreateView, AccountDetailView, AccountUpdateView
 
 app_name = 'accountapp2'
 
@@ -12,5 +12,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
 
     path('create/', AccountCreateView.as_view(), name='create'),  # as_view: 이 파이썬 내에서 정상적으로 사용할수있게 해줌
-    path('detail/<int:pk>', AccountDetailView.as_view(), name='detail')  # primary key를 가지고잇는 id를 가져온다 ?
+    path('detail/<int:pk>', AccountDetailView.as_view(), name='detail'),  # primary key를 가지고잇는 id를 가져온다 ?
+    path('update/<int:pk>', AccountUpdateView.as_view(), name='update')
 ]

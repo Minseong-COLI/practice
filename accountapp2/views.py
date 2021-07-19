@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, UpdateView
 
 from accountapp2.models import HelloColi
 
@@ -49,3 +49,13 @@ class AccountDetailView(DetailView):
     context_object_name = 'target_user'
     # user를 타겟으로 가져온다
     template_name = 'accountapp2/detail.html'
+
+
+class AccountUpdateView(UpdateView):
+    model = User
+    form_class = UserCreationForm
+    success_url = reverse_lazy('accountapp2:detail')
+    # 완료 후 이동 페이지
+    # pk를 입력해줘야 구동이 됨
+    context_object_name = 'target_user'
+    template_name = 'accountapp2/update.html'
