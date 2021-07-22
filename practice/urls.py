@@ -20,5 +20,6 @@ import accountapp2
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account2/', include('accountapp2.urls'))
+    path('account2/', include('accountapp2.urls')),
+    path('profiles/', include('profileapp.urls'))
 ]
