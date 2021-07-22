@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
@@ -5,39 +6,41 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from accountapp2.models import HelloColi
 from accountapp2.forms import AccountCreationForm
 
 
+@login_required(login_url=reverse_lazy('accountapp2:login'))
 def hello_coli(request):
-    if request.user.is_authenticated:
-        # return HttpResponse('Hell Coli')
-        # return render(request, 'base.html')
-        if request.method == "POST":
+    # if request.user.is_authenticated:
+    #     # return HttpResponse('Hell Coli')
+    #     # return render(request, 'base.html')
+    if request.method == "POST":
 
-            temp = request.POST.get('input_text')
+        temp = request.POST.get('input_text')
 
-            new_hello_coli = HelloColi()
-            new_hello_coli.text = temp
-            new_hello_coli.save()
-            # 객체를 DB에 저장    # temp와 다르게 DB에 저장됨(왼쪽 파일 목록 db.sqlite3)
-            # settings.py의 DATABASE 내용 확인 해보면 지정된걸 확인할수있음
+        new_hello_coli = HelloColi()
+        new_hello_coli.text = temp
+        new_hello_coli.save()
+        # 객체를 DB에 저장    # temp와 다르게 DB에 저장됨(왼쪽 파일 목록 db.sqlite3)
+        # settings.py의 DATABASE 내용 확인 해보면 지정된걸 확인할수있음
 
-            return HttpResponseRedirect(reverse('accountapp2:hello_coli'))
+        return HttpResponseRedirect(reverse('accountapp2:hello_coli'))
 
-            # hello_world_list = HelloWorld.objects.all()
-            # # DB의 모든 데이터를 hello_world_list에 넣어줌
-            #
-            # return render(request, 'accountapp/hello_world.html',
-            #               context={'hello_world_list': hello_world_list})
-        else:
-            hello_coli_list = HelloColi.objects.all()
-            return render(request, 'accountapp2/hello_coli.html',
-                          context={'hello_coli_list': hello_coli_list})
+        # hello_world_list = HelloWorld.objects.all()
+        # # DB의 모든 데이터를 hello_world_list에 넣어줌
+        #
+        # return render(request, 'accountapp/hello_world.html',
+        #               context={'hello_world_list': hello_world_list})
     else:
-        return HttpResponseRedirect(reverse('accountapp2:login'))
+        hello_coli_list = HelloColi.objects.all()
+        return render(request, 'accountapp2/hello_coli.html',
+                      context={'hello_coli_list': hello_coli_list})
+    # else:
+    #     return HttpResponseRedirect(reverse('accountapp2:login'))
 
 
 class AccountCreateView(CreateView):
@@ -55,6 +58,8 @@ class AccountDetailView(DetailView):
     template_name = 'accountapp2/detail.html'
 
 
+@method_decorator(login_required(login_url=reverse_lazy('accountapp2:login')), 'get')
+@method_decorator(login_required(login_url=reverse_lazy('accountapp2:login')), 'post')
 class AccountUpdateView(UpdateView):
     model = User
     form_class = AccountCreationForm
@@ -64,33 +69,11 @@ class AccountUpdateView(UpdateView):
     context_object_name = 'target_user'
     template_name = 'accountapp2/update.html'
 
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated and self.get_object() == request.user:
-            return super().get(request, *args, **kwargs)
-        else:
-            return HttpResponseForbidden()
 
-    def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated and self.get_object() == request.user:
-            return super().get(request, *args, **kwargs)
-        else:
-            return HttpResponseForbidden()
-
-
+@method_decorator(login_required(login_url=reverse_lazy('accountapp2:login')), 'get')
+@method_decorator(login_required(login_url=reverse_lazy('accountapp2:login')), 'post')
 class AccountDeleteView(DeleteView):
     model = User
     context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp2:hello_coli')
     template_name = 'accountapp2/delete.html'
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated and self.get_object() == request.user:
-            return super().get(request, *args, **kwargs)
-        else:
-            return HttpResponseForbidden()
-
-    def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated and self.get_object() == request.user:
-            return super().get(request, *args, **kwargs)
-        else:
-            return HttpResponseForbidden()
