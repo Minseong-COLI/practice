@@ -6,7 +6,7 @@ app_name = 'accountapp2'
 
 
 urlpatterns = [
-    path('hello_coli/', hello_coli, name="hello_world"),
+    path('hello_coli/', hello_coli, name="hello_coli"),
 
     path('login/', LoginView.as_view(template_name='accountapp2/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
