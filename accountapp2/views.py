@@ -31,11 +31,11 @@ def hello_coli(request):
 
         return HttpResponseRedirect(reverse('accountapp2:hello_coli'))
 
-        # hello_world_list = HelloWorld.objects.all()
-        # # DB의 모든 데이터를 hello_world_list에 넣어줌
+        # hello_coli_list = HelloColi.objects.all()
+        # # DB의 모든 데이터를 hello_coli_list에 넣어줌
         #
-        # return render(request, 'accountapp/hello_world.html',
-        #               context={'hello_world_list': hello_world_list})
+        # return render(request, 'accountapp/hello_coli.html',
+        #               context={'hello_coli_list': hello_coli_list})
     else:
         hello_coli_list = HelloColi.objects.all()
         return render(request, 'accountapp2/hello_coli.html',
@@ -67,11 +67,14 @@ has_ownership = [login_required(login_url=reverse_lazy('accountapp2:login')), ac
 class AccountUpdateView(UpdateView):
     model = User
     form_class = AccountCreationForm
-    success_url = reverse_lazy('accountapp2:detail')
+    # success_url = reverse_lazy('accountapp2:detail')
     # 완료 후 이동 페이지
     # pk를 입력해줘야 구동이 됨
     context_object_name = 'target_user'
     template_name = 'accountapp2/update.html'
+
+    def get_success_url(self):
+        return reverse('accountapp2:detail', kwargs={'pk': self.object.pk})
 
 
 @method_decorator(has_ownership, 'get')
