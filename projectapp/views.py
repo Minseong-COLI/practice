@@ -6,6 +6,7 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, ListView
 
+from articleapp.models import Article
 from projectapp.forms import ProjectCreationForm
 from projectapp.models import Project
 
@@ -25,6 +26,10 @@ class ProjectDetailView(DetailView):
     model = Project
     context_object_name = 'target_project'
     template_name = 'projectapp/detail.html'
+
+    def get_context_data(self, **kwargs):
+        article_list = Article.objects.filter(project=self.object)
+        return super().get_context_data(object_list=article_list, **kwargs)
 
 
 class ProjectListView(ListView):
