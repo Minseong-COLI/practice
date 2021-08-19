@@ -8,10 +8,12 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic.list import MultipleObjectMixin
 
 from accountapp2.decorators import account_ownership_required
 from accountapp2.models import HelloColi
 from accountapp2.forms import AccountCreationForm
+from articleapp.models import Article
 
 
 @login_required(login_url=reverse_lazy('accountapp2:login'))
@@ -51,12 +53,18 @@ class AccountCreateView(CreateView):
     template_name = 'accountapp2/create.html'
 
 
-class AccountDetailView(DetailView):
+class AccountDetailView(DetailView, MultipleObjectMixin):
     model = User
     # user 객체를 읽어온다
     context_object_name = 'target_user'
     # user를 타겟으로 가져온다
     template_name = 'accountapp2/detail.html'
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        article_list = Article.objects.filter(writer=self.object)
+        # writer = target_user 와 동일: 작성자 인식
+        return super().get_context_data(object_list=article_list, **kwargs)
 
 
 has_ownership = [login_required(login_url=reverse_lazy('accountapp2:login')), account_ownership_required]
