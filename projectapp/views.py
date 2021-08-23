@@ -49,3 +49,4 @@ class ProjectListView(ListView):
     template_name ='projectapp/list.html'
     paginate_by = 20
 
+
