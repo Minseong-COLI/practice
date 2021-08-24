@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.contrib import messages
 from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,10 @@ SECRET_KEY = 'django-insecure-xwh=9@-9%4!awin6w_7a%s7sn9wl8i#^8q$ns#*bahtx25k*9r
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
 
 # Application definition
 
