@@ -19,8 +19,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 import accountapp2
+from articleapp.views import ArticleListView
 
 urlpatterns = [
+    path('', ArticleListView.as_view(), name='home'),
+
     path('admin/', admin.site.urls),
     path('account2/', include('accountapp2.urls')),
     path('profiles/', include('profileapp.urls')),
