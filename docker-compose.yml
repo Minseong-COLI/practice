@@ -23,7 +23,7 @@ services:
   mariadb:
     image: mariadb:10.5
     networks:
-      - papabroccoli_mariadb
+      - papabroccoli_network
     volumes:
       - papabroccoli_mariadb:/var/lib/mysql
     environment:
