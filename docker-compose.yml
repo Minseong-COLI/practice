@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  nginx:
+    image: nginx:1.19.5
+    ports:
+      - 80:80
+    networks:
+      - papabroccoli_network
+    volumes:
+      - /home/als900915/nginx.conf:/etc/nginx/nginx.conf
+      - papabroccoli_static:/data/static/
+      - papabroccoli_media:/data/media/
+
+  django:
+    image: papabroccoli:3
+    networks:
+      - papabroccoli_network
+    volumes:
+      - papabroccoli_static:/home/practice/staticfiles/
+      - papabroccoli_media:/home/practice/media/
+
+
+networks:
+  papabroccoli_network:
+
+
+volumes:
+  papabroccoli_static:
+  papabroccoli_media:
