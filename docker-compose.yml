@@ -13,12 +13,24 @@ services:
       - papabroccoli_media:/data/media/
 
   django:
-    image: papabroccoli:3
+    image: papabroccoli:4
     networks:
       - papabroccoli_network
     volumes:
       - papabroccoli_static:/home/practice/staticfiles/
       - papabroccoli_media:/home/practice/media/
+
+  mariadb:
+    image: mariadb:10.5
+    networks:
+      - papabroccoli_mariadb
+    volumes:
+      - papabroccoli_mariadb:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: 1234
+      MARIADB_DATABASE: django
+      MARIADB_USER: django
+      MARIADB_PASSWORD: 1234
 
 
 networks:
@@ -28,3 +40,4 @@ networks:
 volumes:
   papabroccoli_static:
   papabroccoli_media:
+  papabroccoli_mariadb:
