@@ -13,7 +13,7 @@ services:
       - papabroccoli_media:/data/media/
 
   django:
-    image: papabroccoli:4
+    image: papabroccoli:5
     networks:
       - papabroccoli_network
     volumes:
