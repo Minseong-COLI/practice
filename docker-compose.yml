@@ -11,6 +11,7 @@ services:
       - /home/als900915/nginx.conf:/etc/nginx/nginx.conf
       - papabroccoli_static:/data/static/
       - papabroccoli_media:/data/media/
+      - papabroccoli_log:/var/log/nginx/
 
   django:
     image: papabroccoli:5
@@ -49,6 +50,7 @@ volumes:
   papabroccoli_static:
   papabroccoli_media:
   papabroccoli_mariadb:
+  papabroccoli_log:
 
 
 secrets:
