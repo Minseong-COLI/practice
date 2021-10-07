@@ -15,6 +15,16 @@ services:
       - papabroccoli_static:/data/static/
       - papabroccoli_media:/data/media/
       - papabroccoli_log:/var/log/nginx/
+    secrets:
+      - NGINX_AUTH
+
+  goaccess:
+    image: allinurl/goaccess:1.5.1
+    ports:
+      - 7890:7890
+    volumes:
+      - papabroccoli_log:/var/log/nginx/
+    command: /var/log/nginx/papa_access.log -o /var/log/nginx/report.html --real-time-html --log-format COMBINED
 
   django:
     image: papabroccoli:5
@@ -64,4 +74,6 @@ secrets:
   MARIADB_USER:
     external: true
   MARIADB_PASSWORD:
+    external: true
+  NGINX_AUTH:
     external: true
